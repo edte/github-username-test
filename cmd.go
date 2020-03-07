@@ -26,6 +26,13 @@ type Username struct {
 	Name string
 }
 
+//TODO: 增加其他网站的 feat
+//TODO: 解决误判问题
+//TODO: 解决 504 问题
+//TODO: 加入数字
+//TODO: 将结果按 含韵母 筛选一遍
+//TODO: 找出有意义的结果, 如单词，特定缩写，字母表如 orz 等
+
 func main() {
 	DatabasePre()
 	for i := 18000; i > 1200; i-- {
