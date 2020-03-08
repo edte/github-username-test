@@ -8,7 +8,6 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"net/http"
 	"sync"
-	"time"
 )
 
 var (
@@ -32,10 +31,11 @@ type Username struct {
 //TODO: 加入数字
 //TODO: 将结果按 含韵母 筛选一遍
 //TODO: 找出有意义的结果, 如单词，特定缩写，字母表如 orz 等
+//TODO: 建立 Ip 池解决 ip 限制问题
 
 func main() {
 	DatabasePre()
-	for i := 18000; i > 1200; i-- {
+	for i := 0; i < 100; i++ {
 		j = i * 10
 		go Start(j, j+9999)
 	}
@@ -52,20 +52,22 @@ func Start(begin int, end int) {
 			result = string(remainder+97) + result
 			quotient = int(quotient/26) - 1
 		}
-		fmt.Println(result)
+
+		//fmt.Println(result)
 		code := GetStatusCode(GenderateUrl(result))
-		if code == 200 {
-			//fmt.Println(result + " is registe!")
-		} else if code == 404 {
-			fmt.Println(result + " is not registe!")
-			Inser(result)
-		} else {
-			//todo：爬一会 会返回 504 ，猜测是 github 的防护措施
-			fmt.Println(code)
-			time.Sleep(time.Second * 5)
-		}
+		fmt.Println(code)
+		//if code == 200 {
+		//	//fmt.Println(result + " is registe!")
+		//} else if code == 404 {
+		//	fmt.Println(result + " is not registe!")
+		//	Inser(result)
+		//} else {
+		//	//todo：爬一会 会返回 504 ，猜测是 github 的防护措施
+		//	fmt.Println(code)
+		//	time.Sleep(time.Second * 5)
+		c <- 0
+
 	}
-	c <- 0
 }
 
 func DatabasePre() {
@@ -95,7 +97,7 @@ func GetStatusCode(url string) int {
 }
 
 func GenderateUrl(str string) string {
-	return "https://github.com/" + str
+	return "https://api.github.com/users/" + str
 }
 
 func Inser(name string) {
