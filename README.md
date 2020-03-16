@@ -1,3 +1,6 @@
+## Table of Contents
+[toc]
+
 ## Introductions：
 
 github-username-test 是一个基于 go 语言开发的项目，这个项目用于测试 github 可用的用户名。该项目正在维护中。
